@@ -1,0 +1,30 @@
+nginx:
+  build: ../Metafiles/Dockerfiles/moodlenginx
+  ports:
+      - "80"
+  links:
+    - php:php
+  volumes_from:
+    - php
+
+php:
+  build: ../Metafiles/Dockerfiles/moodlephp
+  links:
+    - db:db
+  volumes:
+    - ./moodle:/var/www/public
+    - ./data/moodledata:/var/moodledata
+  command: /usr/local/sbin/php-fpm
+
+db:
+  build: ../Metafiles/Dockerfiles/moodlepostgres
+  ports:
+    - "5432"
+  environment:
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=RANDMStrUmaY!Gue$$
+    - MOODLE_DBUSER=testdb
+    - MOODLE_DBPASS=hello
+  volumes:
+    - ./data/db:/var/lib/postgresql/data
+
