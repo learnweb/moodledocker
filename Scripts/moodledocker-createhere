@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+require_relative 'moodledocker-common.rb'
+
+# This is a simple wrapper to moodledocker-create, intended to be ran in a working copy of Moodle.
+
+def puts_usage
+  puts "Usage: moodledocker-createhere NAME"
+end
+
+if ARGV.length != 1 then
+  puts_usage
+  exit
+end
+
+# TODO: Test if a version.php exists to make sure this is actually a Moodle installation.
+
+# Do not check validity of Name, as moodledocker does this better. Note that no escaping takes place, though...
+
+# Replace current process with the actual script.
+exec("#{MoodleDocker.script_dir}/moodledocker-create #{ARGV[0]} #{Dir.getwd}")

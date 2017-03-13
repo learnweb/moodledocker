@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+require_relative 'moodledocker-common.rb'
+
+# This is a simple wrapper in order to achieve easier aliases.
+
+# List of allowed script names. Corresponding `moodledocker-XXX' must exist and be executable.
+@scripts = ['create', 'createhere', 'control']
+
+def puts_usage
+  puts "Usage: moodledocker ["+@scripts.join("|")+"] SCRIPT_ARGUMENTS"
+  puts "Individual scripts use different SCRIPT_ARGUMENTS. Invoke `moodledocker SCRIPT_NANE' to find out individual usage."
+end
+
+if ARGV.length < 1 then
+  puts_usage
+  exit
+end
+
+scriptname = ARGV[0]
+
+if !@scripts.include? scriptname then
+  puts_usage
+  exit
+end
+
+# Replace current process with the actual script.
+# Note that parameters are not escaped...
+exec("#{MoodleDocker.base_dir}/Metafiles/Scripts/moodledocker-#{scriptname} #{ARGV.drop(1).join(" ")}")

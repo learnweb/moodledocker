@@ -1,0 +1,63 @@
+#!/usr/bin/env ruby
+require_relative 'moodledocker-common.rb'
+require 'fileutils'
+
+def up(name)
+  path = "#{MoodleDocker.base_dir}/#{name}"
+  puts "Switch to base directory #{path}"
+  FileUtils.cd(path) do
+    success = system "docker-compose up -d"
+    if !success
+      return false;
+    end
+
+    interface = `docker-compose port nginx 80`
+    port = interface.split(":")[1].strip
+
+    postgresinterface = `docker-compose port db 5432`
+    postgresport = postgresinterface.split(":")[1].strip
+
+    puts "Containers for #{name} running."
+    puts "  Access the site at: http://localhost:#{port}/"
+    puts "  Access the database using: psql -p #{postgresport} -h localhost -U testdb    [Password: hello]"
+    puts "  Shutdown containers using: moodledocker-control #{name} down"
+  end
+
+  return true
+end
+
+def down(name)
+  path = "#{MoodleDocker.base_dir}/#{name}"
+  puts "Switch to base directory #{path}"
+  FileUtils.cd(path) do
+    return system "docker-compose down"
+  end
+end
+
+if ARGV.length != 2 || !["up", "down"].include?(ARGV[1]) then
+  puts "Usage: moodledocker-control NAME COMMAND"
+  puts "\tCOMMAND must be one of ['up', 'down']."
+  exit
+end
+
+name = ARGV[0]
+cmd = ARGV[1]
+
+if !MoodleDocker.name_valid? (name)
+  exit!
+end
+
+if !MoodleDocker.project_exists?(name)
+  puts "Error: Project #{name} does not exist."
+  exit!
+end
+
+if !(case cmd
+      when "up"
+        up name
+      when "down"
+        down name
+     end)
+  exit!
+end
+
