@@ -1,0 +1,64 @@
+<?php  // Moodle configuration file
+
+unset($CFG);
+global $CFG;
+$CFG = new stdClass();
+
+<% if configwwu == true %>
+require_once(dirname(__FILE__) . '/config-wwu.php');
+<% end %>
+define('SYSTEM_NAME','test');
+
+$CFG->dbtype    = 'pgsql';
+$CFG->dblibrary = 'native';
+$CFG->dbhost    = getenv('DB_PORT_5432_TCP_ADDR');
+$CFG->dbname    = getenv('DB_ENV_MOODLE_DBUSER');
+$CFG->dbuser    = getenv('DB_ENV_MOODLE_DBUSER');
+$CFG->dbpass    = getenv('DB_ENV_MOODLE_DBPASS');
+$CFG->prefix    = 'mdl_';
+$CFG->dboptions = array (
+'dbpersist' => 0,
+'dbsocket' => false,
+'dbport' => getenv('DB_PORT_5432_TCP_PORT'),
+);
+
+
+$CFG->navexpandmycourses = true;
+
+$CFG->directorypermissions = 0777;
+
+$CFG->wwwroot = 'http://'.  $_SERVER["HTTP_HOST"]."/<%= @name %>";
+$CFG->dataroot  = '/var/moodledata/';
+$CFG->admin     = 'admin';
+
+$CFG->directorypermissions = 0777;
+
+initialize_further_configs(true);
+
+$CFG->divertallemailsto = 'technik.learnweb@localhost'; // NOT FOR PRODUCTION SERVERS!
+
+$CFG->slasharguments = false;
+
+define('MDL_PERF', true);
+define('MDL_PERFDB', true);
+define('MDL_PERFTOFOOT', true);
+
+
+$CFG->behat_dataroot = $CFG->dataroot.'/behat/';
+$CFG->behat_prefix = 'bht_';
+
+require_once(dirname(__FILE__) . '/lib/setup.php');
+
+$CFG->phpunit_prefix = 'phpu_';
+$CFG->phpunit_dataroot = $CFG->dataroot.'/phpunit/';
+
+$CFG->forced_plugin_settings["local_lsf_unification"]["dbhost"] = "localhost";
+$CFG->forced_plugin_settings["local_lsf_unification"]["dbport"] = "54322";
+
+// There is no php closing tag in this file,
+// it is intentional because it prevents trailing whitespace problems!
+
+//function hello($ex) {
+//    var_dump($ex);
+//}
+//set_exception_handler('hello');
