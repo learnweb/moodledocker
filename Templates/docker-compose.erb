@@ -1,18 +1,9 @@
-nginx:
-  build: ../Metafiles/Dockerfiles/moodlenginx
-  ports:
-      - "80"
-  links:
-    - php:php
-  volumes_from:
-    - php
-
 php:
   build: ../Metafiles/Dockerfiles/moodlephp
   links:
     - db:db
   volumes:
-    - ./moodle:/var/www/public
+    - ./moodle:/var/www/public/<%= @name %>
     - ./data/moodledata:/var/moodledata
   command: /usr/local/sbin/php-fpm
 
@@ -27,4 +18,13 @@ db:
     - MOODLE_DBPASS=hello
   volumes:
     - ./data/db:/var/lib/postgresql/data
-
+nginx:
+  build: ../Metafiles/Dockerfiles/moodlenginx
+  links:
+    - php:php
+  volumes_from:
+    - php
+  expose:
+    - "80"
+  environment:
+    - VIRTUAL_HOST=<%= @name %>

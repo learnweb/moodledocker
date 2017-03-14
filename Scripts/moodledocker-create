@@ -1,6 +1,14 @@
 #!/usr/bin/env ruby
 require_relative 'moodledocker-common.rb'
 require 'fileutils'
+require 'erb'
+
+    class Foo
+	 attr_accessor :name
+	 def template_binding
+	    binding
+	 end
+    end
 
 def create_if_empty(name, srcdir)
   if !MoodleDocker.name_valid? (name)
@@ -25,7 +33,12 @@ def create_if_empty(name, srcdir)
     FileUtils.mkdir( [name, datadir, datadir + "/db", datadir + "/moodledata"] )
 
     puts "  Copy templates."
-    FileUtils.cp("Metafiles/Templates/docker-compose.yml", name + "/docker-compose.yml")
+    new_file = File.open("#{name}/docker-compose.yml", "w+")
+    template = File.read("Metafiles/Templates/docker-compose.erb")
+    foo = Foo.new
+    foo.name = name
+    new_file << ERB.new(template).result(foo.template_binding)
+    new_file.close
 
     puts "  Change owner of Moodledata directory to www-data (requires SU privileges)."
     system("sudo chown 33:33 " + datadir + "/moodledata")
