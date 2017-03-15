@@ -33,7 +33,9 @@ $CFG->admin     = 'admin';
 
 $CFG->directorypermissions = 0777;
 
+<% if configwwu == true %>
 initialize_further_configs(true);
+<% end %>
 
 $CFG->divertallemailsto = 'technik.learnweb@localhost'; // NOT FOR PRODUCTION SERVERS!
 
