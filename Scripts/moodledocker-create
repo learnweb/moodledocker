@@ -45,28 +45,28 @@ def create_if_empty(name, srcdir)
 
     puts "  Symlink external resources."
     File.symlink(srcdir, name + "/moodle")
-  end
 
-  puts "Copy config? (0: No (Default), 1: copy config.php, 2: also include require(config-wwu.php)): "
-  input = $stdin.gets.chomp
+    puts "Copy config? (0: No (Default), 1: copy config.php, 2: also include require(config-wwu.php)): "
+    input = $stdin.gets.chomp
 
-  if input == "2" then
-    configwwu = true
-  else
-    configwwu = false
-  end
+    if input == "2" then
+      configwwu = true
+    else
+      configwwu = false
+    end
 
-  if input == "2" || input == "1" then
-    puts "  Copy config.php."
-    new_file = File.open("#{srcdir}/config.php", "w+")
-    template = File.read("Metafiles/Templates/config.erb")
-    foo = Foo.new
-    foo.name = name
-    foo.configwwu = configwwu
-    new_file << ERB.new(template).result(foo.template_binding)
-    new_file.close
-  else
-    puts "  Ok, then not."
+    if input == "2" || input == "1" then
+      puts "  Copy config.php."
+      new_file = File.open("#{srcdir}/config.php", "w+")
+      template = File.read("Metafiles/Templates/config.erb")
+      foo = Foo.new
+      foo.name = name
+      foo.configwwu = configwwu
+      new_file << ERB.new(template).result(foo.template_binding)
+      new_file.close
+    else
+      puts "  Ok, then not."
+    end
   end
 
   puts "Done."
