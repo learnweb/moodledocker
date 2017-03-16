@@ -31,9 +31,9 @@ def down(name)
   end
 end
 
-if ARGV.length != 2 || !["up", "down"].include?(ARGV[1]) then
+if ARGV.length != 2 || !["up", "down", "restart"].include?(ARGV[1]) then
   puts "Usage: moodledocker-control NAME COMMAND"
-  puts "\tCOMMAND must be one of ['up', 'down']."
+  puts "\tCOMMAND must be one of ['up', 'down', 'restart']."
   exit
 end
 
@@ -54,6 +54,9 @@ if !(case cmd
         up name
       when "down"
         down name
+      when "restart"
+        down name
+        up name	
      end)
   exit!
 end
