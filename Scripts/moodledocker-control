@@ -3,6 +3,20 @@ require_relative 'moodledocker-common.rb'
 require 'fileutils'
 
 def up(name)
+  puts "Checking if nginx-proxy is running"
+  nginxproxy = `docker ps -f name=nginx-proxy -q`
+  if (nginxproxy.strip == "")
+     nginxproxy = `docker ps -f name=nginx-proxy -q`
+     if (nginxproxy.strip == "")
+	puts "There is no container with name nginx-proxy"
+	puts "Make sure you downloaded the correct container and execute something like:"
+	puts "docker run --name nginx-proxy -d -p 80:80 -v /var/run/docker.sock:/tmp/docker.sock:ro jwilder/nginx-proxy"
+     else 
+        print "Starting nginx-proxy"
+        `docker start nginx-proxy`
+        puts " ... done"
+     end
+  end
   path = "#{MoodleDocker.base_dir}/#{name}"
   puts "Switch to base directory #{path}"
   FileUtils.cd(path) do
