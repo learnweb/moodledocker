@@ -6,7 +6,7 @@ def up(name)
   puts "Checking if nginx-proxy is running"
   nginxproxy = `docker ps -f name=nginx-proxy -q`
   if (nginxproxy.strip == "")
-     nginxproxy = `docker ps -f name=nginx-proxy -q`
+     nginxproxy = `docker ps -a -f name=nginx-proxy -q`
      if (nginxproxy.strip == "")
 	puts "There is no container with name nginx-proxy"
 	puts "Make sure you downloaded the correct container and execute something like:"
