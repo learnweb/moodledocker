@@ -1,3 +1,5 @@
+require 'pathname'
+
 module MoodleDocker
   @base_dir = File.dirname(File.dirname(__dir__))
   @forbidden_names = ['Metafiles']
@@ -31,5 +33,27 @@ module MoodleDocker
   def self.project_exists? (name)
     # Asserts that the name is valid! Does not perform ANY sanitizing AT ALL.
     return File.directory?(self.base_dir + "/" + name)
+  end
+
+  def self.project_path (path)
+    # Look for a project with a moodle link which leads to the current path
+    dirs = Dir.entries(self.base_dir).select { |entry| File.directory? File.join(self.base_dir,entry) and
+        !(entry =='.' || entry == '..') and
+        File.exists? File.join(self.base_dir,entry,"moodle")}
+    links = []
+    dirs.each do |entry|
+      links << File.readlink(File.join(self.base_dir,entry,"moodle"))
+    end
+    pathname = Pathname.new(path)
+    return links.select {|entry| pathname.fnmatch?(File.join(entry,'**'))}.first()
+  end
+
+  def self.project_name (path)
+    # Look for a project with a moodle link which leads to the current path
+    dirs = Dir.entries(self.base_dir).select { |entry| File.directory? File.join(self.base_dir,entry) and
+        !(entry =='.' || entry == '..') and
+        File.exists? File.join(self.base_dir,entry,"moodle")}
+    pathname = Pathname.new(path)
+    return dirs.select {|entry| pathname.fnmatch?(File.join(File.readlink(File.join(self.base_dir,entry,"moodle")),'**'))}.first()
   end
 end

@@ -4,7 +4,16 @@ COPY moodledev.ini /usr/local/etc/php/conf.d/
 
 RUN  apt-get update \
 	&& apt-get install -y libpq-dev \
-	&& docker-php-ext-install pgsql
+	&& docker-php-ext-install pgsql \
+	&& apt-get install locales
+
+# Set the locale
+RUN locale-gen en_AU.UTF-8
+RUN localedef -i en_AU -f UTF-8 en_AU.UTF-8
+ENV LANG en_AU.UTF-8  
+ENV LANGUAGE en_AU:en  
+ENV LC_ALL en_AU.UTF-8 
+RUN update-locale
 
 RUN docker-php-ext-install zip 
 
