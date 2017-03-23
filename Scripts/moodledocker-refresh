@@ -43,7 +43,7 @@ def refresh_if_not_empty(name)
 
     if input == "2" || input == "1" then
       puts "  Copy config.php."
-      new_file = File.open("#{srcdir}/config.php", "w+")
+      new_file = File.open("#{name}/moodle/config.php", "w+")
       template = File.read("Metafiles/Templates/config.erb")
       foo = Foo.new
       foo.name = name
