@@ -46,8 +46,25 @@ define('MDL_PERFDB', true);
 define('MDL_PERFTOFOOT', true);
 
 
-$CFG->behat_dataroot = $CFG->dataroot.'/behat/';
+$CFG->behat_dataroot = $CFG->dataroot.'behat/';
 $CFG->behat_prefix = 'bht_';
+$CFG->behat_wwwroot = 'http://172.17.0.1/behat_<%= @name %>';
+$CFG->behat_profiles = array(
+   'firefox-linux' => array(
+      'extensions' => array(
+         'Behat\MinkExtension\Extension' => array(
+            'selenium2' => array(
+               'browser' => 'firefox',
+               'wd_host' => 'http://172.17.0.1:4444/wd/hub'
+            )
+         )
+      ),
+      'wd_host' => 'http://172.17.0.1:4444/wd/hub'
+   ),
+);
+    
+
+
 
 require_once(dirname(__FILE__) . '/lib/setup.php');
 
