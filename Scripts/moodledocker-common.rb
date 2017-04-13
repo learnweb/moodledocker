@@ -42,7 +42,12 @@ module MoodleDocker
         File.exists? File.join(self.base_dir,entry,"moodle")}
     links = []
     dirs.each do |entry|
-      links << File.readlink(File.join(self.base_dir,entry,"moodle"))
+      dirname = File.join(self.base_dir, entry, 'moodle')
+      if File.symlink? (dirname) # Follow link.
+        links << File.readlink(dirname)
+      else
+        links << dirname
+      end
     end
     pathname = Pathname.new(path)
     return links.select {|entry| pathname.fnmatch?(File.join(entry,'**'))}.first()
