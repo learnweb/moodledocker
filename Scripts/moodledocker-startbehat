@@ -15,17 +15,17 @@ def start_behat(name)
   puts "Checking if seleniumserver is running"
   seleniumserver = `docker ps -f name=seleniumserver -q`
   if (seleniumserver.strip == "")
-     seleniumserver= `docker ps -a -f name=seleniumserver -q`
-     if (seleniumserver.strip == "")
-          puts "There is no container with name seleniumserver"
-     	  puts "Make sure you downloaded the correct container and execute something like:"
-	  puts "docker run --name seleniumserver -d -p 4444:4444 selenium/standalone-firefox:2.53.1-beryllium"
-	  return false
-     else
-          print "Starting selenium server"
-          `docker start seleniumserver`
-          puts " ... done"
-     end
+    seleniumserver= `docker ps -a -f name=seleniumserver -q`
+    if (seleniumserver.strip == "")
+      puts "There is no container with name seleniumserver"
+      puts "Make sure you downloaded the correct container and execute something like:"
+	    puts "docker run --name seleniumserver -d -p 4444:4444 selenium/standalone-firefox:2.53.1-beryllium"
+	    return false
+    else
+      print "Starting selenium server"
+      `docker start seleniumserver`
+      puts " ... done"
+    end
   end
 
   phpcontainername = "#{name.gsub("_","")}_php_1"
