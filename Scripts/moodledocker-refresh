@@ -1,0 +1,73 @@
+#!/usr/bin/env ruby
+require_relative 'moodledocker-common.rb'
+require 'fileutils'
+require 'erb'
+
+    class Foo
+	 attr_accessor :name, :configwwu
+	 def template_binding
+	    binding
+	 end
+    end
+
+def refresh_if_not_empty(name)
+  if !MoodleDocker.name_valid? (name)
+    return false
+  end
+
+  if !MoodleDocker.project_exists?(name)
+    puts "  Error: Project directory \"#{name}\" does not exist."
+    return false
+  end
+
+  # Make sure everything happens in the *correct* directory!
+  puts "Switch to base directory #{MoodleDocker.base_dir}"
+  FileUtils.cd(MoodleDocker.base_dir) do
+    puts "  Copy templates."
+    new_file = File.open("#{name}/docker-compose.yml", "w+")
+    template = File.read("Metafiles/Templates/docker-compose.erb")
+    foo = Foo.new
+    foo.name = name
+    new_file << ERB.new(template).result(foo.template_binding)
+    new_file.close
+
+
+    puts "Copy config? (0: No (Default), 1: copy config.php, 2: also include require(config-wwu.php)): "
+    input = $stdin.gets.chomp
+
+    if input == "2" then
+      configwwu = true
+    else
+      configwwu = false
+    end
+
+    if input == "2" || input == "1" then
+      puts "  Copy config.php."
+      new_file = File.open("#{name}/moodle/config.php", "w+")
+      template = File.read("Metafiles/Templates/config.erb")
+      foo = Foo.new
+      foo.name = name
+      foo.configwwu = configwwu
+      new_file << ERB.new(template).result(foo.template_binding)
+      new_file.close
+      puts "config refreshed."
+    else
+      puts "  Ok, then not."
+    end
+  end
+
+  puts "Done."
+
+  return true
+end
+
+
+if ARGV.length != 1 then
+  puts "Usage: moodledocker-refresh NAME"
+  exit
+end
+
+if !refresh_if_not_empty(ARGV[0]) then
+  exit!
+end
+

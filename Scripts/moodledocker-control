@@ -3,6 +3,20 @@ require_relative 'moodledocker-common.rb'
 require 'fileutils'
 
 def up(name)
+  puts "Checking if nginx-proxy is running"
+  nginxproxy = `docker ps -f name=nginx-proxy -q`
+  if (nginxproxy.strip == "")
+     nginxproxy = `docker ps -a -f name=nginx-proxy -q`
+     if (nginxproxy.strip == "")
+	puts "There is no container with name nginx-proxy"
+	puts "Make sure you downloaded the correct container and execute something like:"
+	puts "docker run --name nginx-proxy -d -p 80:80 -v /var/run/docker.sock:/tmp/docker.sock:ro jwilder/nginx-proxy"
+     else 
+        print "Starting nginx-proxy"
+        `docker start nginx-proxy`
+        puts " ... done"
+     end
+  end
   path = "#{MoodleDocker.base_dir}/#{name}"
   puts "Switch to base directory #{path}"
   FileUtils.cd(path) do
@@ -31,9 +45,9 @@ def down(name)
   end
 end
 
-if ARGV.length != 2 || !["up", "down"].include?(ARGV[1]) then
+if ARGV.length != 2 || !["up", "down", "restart"].include?(ARGV[1]) then
   puts "Usage: moodledocker-control NAME COMMAND"
-  puts "\tCOMMAND must be one of ['up', 'down']."
+  puts "\tCOMMAND must be one of ['up', 'down', 'restart']."
   exit
 end
 
@@ -54,6 +68,9 @@ if !(case cmd
         up name
       when "down"
         down name
+      when "restart"
+        down name
+        up name	
      end)
   exit!
 end

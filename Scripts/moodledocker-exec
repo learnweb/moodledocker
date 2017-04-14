@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+require_relative 'moodledocker-common.rb'
+require 'fileutils'
+
+def execute_on_docker(command)
+  currentpath = Dir.pwd + "/."
+
+  projectpath =  MoodleDocker.project_path(currentpath)
+  projectname =  MoodleDocker.project_name(currentpath)
+  if projectname == nil
+    puts "Error: For this folder no Docker instance could be found."
+    return false
+  end
+  servicename = projectname.gsub('_', '') + '_php_1'
+  nginx = `docker ps -a -f name=#{servicename} -q`
+  if nginx.strip == ''
+    puts "Error: Instance #{servicename} is not running!"
+    return false
+  end
+
+  remotefolder = currentpath.gsub(projectpath,"/var/www/public/" + projectname + "/")
+  puts "Executing command on #{servicename} ..."
+  system "docker exec -it #{servicename} bash -c '( cd #{remotefolder}; "+ command.join(' ') + ")'"
+  return true
+end
+
+
+if ARGV.length < 1 then
+  puts "Usage: moodledocker-exec command"
+  exit
+end
+
+if !execute_on_docker(ARGV) then
+  exit!
+end
+

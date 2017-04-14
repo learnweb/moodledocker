@@ -7,7 +7,6 @@ $CFG = new stdClass();
 <% if configwwu == true %>
 require_once(dirname(__FILE__) . '/config-wwu.php');
 <% end %>
-define('SYSTEM_NAME','test');
 
 $CFG->dbtype    = 'pgsql';
 $CFG->dblibrary = 'native';
@@ -46,16 +45,25 @@ define('MDL_PERFDB', true);
 define('MDL_PERFTOFOOT', true);
 
 
-$CFG->behat_dataroot = $CFG->dataroot.'/behat/';
+$CFG->behat_dataroot = $CFG->dataroot.'behat/';
+$CFG->behat_faildump_path = $CFG->dataroot;
 $CFG->behat_prefix = 'bht_';
+$CFG->behat_wwwroot = 'http://172.17.0.1/behat_<%= @name %>';
+$CFG->behat_profiles = array(
+  'default' => array(
+    'browser' => 'firefox',
+    'wd_host' => 'http://172.17.0.1:4444/wd/hub',
+  ),
+);
+
+
+
+
 
 require_once(dirname(__FILE__) . '/lib/setup.php');
 
 $CFG->phpunit_prefix = 'phpu_';
 $CFG->phpunit_dataroot = $CFG->dataroot.'/phpunit/';
-
-$CFG->forced_plugin_settings["local_lsf_unification"]["dbhost"] = "localhost";
-$CFG->forced_plugin_settings["local_lsf_unification"]["dbport"] = "54322";
 
 // There is no php closing tag in this file,
 // it is intentional because it prevents trailing whitespace problems!
