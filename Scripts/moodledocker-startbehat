@@ -28,10 +28,11 @@ def start_behat(name)
      end
   end
 
-  puts "Starting webserver"
-  system "docker exec -it #{name.gsub("_","")}_php_1 bash -c 'php -S 0.0.0.0:80 -t /var/www/public'"
-  puts " ... done"
-  puts "Behat environment is now running"
+  phpcontainername = "#{name.gsub("_","")}_php_1"
+  puts "Starting webserver within #{phpcontainername}"
+  system "docker exec -it #{phpcontainername} bash -c 'php -S 0.0.0.0:80 -t /var/www/public'"
+  puts ' ... stopped'
+  puts "Behat environment has stopped. Selenium is still running; execute `docker stop seleniumserver' to end it."
   
   return true
 end
