@@ -50,19 +50,13 @@ $CFG->behat_faildump_path = $CFG->dataroot;
 $CFG->behat_prefix = 'bht_';
 $CFG->behat_wwwroot = 'http://172.17.0.1/behat_<%= @name %>';
 $CFG->behat_profiles = array(
-   'firefox-linux' => array(
-      'extensions' => array(
-         'Behat\MinkExtension\Extension' => array(
-            'selenium2' => array(
-               'browser' => 'firefox',
-               'wd_host' => 'http://172.17.0.1:4444/wd/hub'
-            )
-         )
-      ),
-      'wd_host' => 'http://172.17.0.1:4444/wd/hub'
-   ),
+  'default' => array(
+    'browser' => 'firefox',
+    'wd_host' => 'http://172.17.0.1:4444/wd/hub',
+  ),
 );
-    
+
+
 
 
 
