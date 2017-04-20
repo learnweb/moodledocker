@@ -28,6 +28,12 @@ def start_behat(name)
     end
   end
 
+  puts "Behat environment will be running soon"
+  puts "If you haven't done. Please init the behat site using:"
+  puts "  moodledocker exec php admin/tool/behat/cli/init.php"
+  puts "Your can run tests using something like:"
+  puts "  moodledocker exec vendor/bin/behat --config /var/moodledata/behat/behatrun/behat/behat.yml --tags \"@youplugin\""
+
   phpcontainername = "#{name.gsub("_","")}_php_1"
   puts "Starting webserver within #{phpcontainername}"
   system "docker exec -it #{phpcontainername} bash -c 'php -S 0.0.0.0:80 -t /var/www/public'"
