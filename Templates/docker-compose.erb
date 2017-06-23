@@ -12,6 +12,8 @@ php:
     - VIRTUAL_HOST=behat_<%= @name %>
   expose:
     - "80"
+  extra_hosts:
+    - "docker-host:172.17.0.1"
 
 db:
   build: ../Metafiles/Dockerfiles/moodlepostgres
