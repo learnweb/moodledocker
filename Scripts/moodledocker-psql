@@ -15,11 +15,10 @@ def start_psql()
   FileUtils.cd(path) do
     postgresinterface = `docker-compose port db 5432`
     postgresport = postgresinterface.split(":")[1].strip
-  end
 
-  puts "Starting psql for #{projectname}"
-#  set PGPASSWORD=hello
-  system "PGPASSWORD=hello psql -p #{postgresport} -h localhost -U testdb"
+    puts "Starting psql for #{projectname}"
+    system "PGPASSWORD=hello psql -p #{postgresport} -h localhost -U testdb"
+  end
 
   return true
 end
