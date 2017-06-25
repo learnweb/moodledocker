@@ -29,10 +29,10 @@ def start_behat(name)
   end
 
   puts "Behat environment will be running soon"
-  puts "If you haven't done. Please init the behat site using:"
+  puts "If you haven't done so yet, please init the behat site using:"
   puts "  moodledocker exec php admin/tool/behat/cli/init.php"
   puts "Your can run tests using something like:"
-  puts "  moodledocker exec vendor/bin/behat --config /var/moodledata/behat/behatrun/behat/behat.yml --tags \"@youplugin\""
+  puts "  moodledocker exec vendor/bin/behat --config /var/moodledata/behat/behatrun/behat/behat.yml --tags \"@yourplugin\""
 
   phpcontainername = "#{name.gsub("_","")}_php_1"
   puts "Starting webserver within #{phpcontainername}"
