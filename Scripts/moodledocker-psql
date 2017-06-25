@@ -10,9 +10,12 @@ def start_psql()
     puts "Error: For this folder no Docker instance could be found."
     return false
   end
-  
-  postgresinterface = `docker port #{projectname}_db_1 5432`
-  postgresport = postgresinterface.split(":")[1].strip
+
+  path = "#{MoodleDocker.base_dir}/#{projectname}"
+  FileUtils.cd(path) do
+    postgresinterface = `docker-compose port db 5432`
+    postgresport = postgresinterface.split(":")[1].strip
+  end
 
   puts "Starting psql for #{projectname}"
 #  set PGPASSWORD=hello
