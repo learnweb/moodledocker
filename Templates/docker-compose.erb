@@ -12,7 +12,7 @@ php:
     - VIRTUAL_HOST=behat_<%= @name %>
   expose:
     - "80"
-  extra_hosts:
+  extra_hosts: # SMTP must match configuration in Dockerfiles/moodlephp/Dockerfile
     - "smtp-server:172.17.0.1"
 
 db:
