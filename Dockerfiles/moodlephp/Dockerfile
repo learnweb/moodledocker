@@ -37,5 +37,12 @@ RUN yes | pecl install xdebug \
 	&& echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
 	&& echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
 	&& echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini
+RUN apt-get install -y \
+	ssmtp \
+	netcat
+# modify ssmtp settings 
+RUN sed -ri -e 's/^(mailhub=).*/\1smtp-server/' \  
+    -e 's/^#(FromLineOverride)/\1/' /etc/ssmtp/ssmtp.conf
+
 
 WORKDIR /var/www

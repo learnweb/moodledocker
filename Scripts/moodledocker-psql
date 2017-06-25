@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+require_relative 'moodledocker-common.rb'
+require 'fileutils'
+require 'yaml'
+
+def start_psql()
+  currentpath = Dir.pwd + "/."
+
+  projectname =  MoodleDocker.project_name(currentpath)
+  if projectname == nil
+    puts "Error: For this folder no Docker instance could be found."
+    return false
+  end
+
+  path = "#{MoodleDocker.base_dir}/#{projectname}"
+  FileUtils.cd(path) do
+    postgresinterface = `docker-compose port db 5432`
+    postgresport = postgresinterface.split(":")[1].strip
+    dbenv = YAML.load_file('docker-compose.yml')['db']['environment']
+    pguser = dbenv.select { |i| i.start_with?("MOODLE_DBUSER") }.first.split("=")[1].strip
+    pgpass = dbenv.select { |i| i.start_with?("MOODLE_DBPASS") }.first.split("=")[1].strip
+
+
+    puts "Starting psql for #{projectname}"
+    system "PGPASSWORD=#{pgpass} psql -p #{postgresport} -h localhost -U #{pguser}"
+  end
+
+  return true
+end
+
+
+if ARGV.length != 0 then
+  puts "Usage: moodledocker-psql"
+  exit
+end
+
+if !start_psql() then
+  exit!
+end
+
