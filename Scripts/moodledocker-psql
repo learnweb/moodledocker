@@ -5,7 +5,6 @@ require 'fileutils'
 def start_psql()
   currentpath = Dir.pwd + "/."
 
-  projectpath =  MoodleDocker.project_path(currentpath)
   projectname =  MoodleDocker.project_name(currentpath)
   if projectname == nil
     puts "Error: For this folder no Docker instance could be found."
