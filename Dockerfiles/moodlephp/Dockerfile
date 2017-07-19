@@ -1,4 +1,4 @@
-FROM php:5.6-fpm
+FROM php:7.1-fpm
 
 COPY moodledev.ini /usr/local/etc/php/conf.d/
 
