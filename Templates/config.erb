@@ -46,7 +46,7 @@ define('MDL_PERFTOFOOT', true);
 $CFG->behat_dataroot = $CFG->dataroot.'behat/';
 $CFG->behat_faildump_path = $CFG->dataroot;
 $CFG->behat_prefix = 'bht_';
-$CFG->behat_wwwroot = 'http://localhost/behat_<%= @name %>';
+$CFG->behat_wwwroot = 'http://172.17.0.1/behat_<%= @name %>';
 $CFG->behat_profiles = array(
   'default' => array(
     'browser' => 'firefox',
