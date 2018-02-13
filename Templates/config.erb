@@ -3,8 +3,8 @@
 unset($CFG);
 global $CFG;
 $CFG = new stdClass();
-
 <% if configwwu == true %>
+
 require_once(dirname(__FILE__) . '/config-wwu.php');
 <% end %>
 
@@ -21,27 +21,19 @@ $CFG->dboptions = array (
 'dbport' => getenv('DB_PORT_5432_TCP_PORT'),
 );
 
-
 $CFG->navexpandmycourses = true;
-
-$CFG->directorypermissions = 0777;
 
 $CFG->wwwroot = 'http://localhost/<%= @name %>';
 $CFG->dataroot  = '/var/moodledata/';
 $CFG->admin     = 'admin';
 
 $CFG->directorypermissions = 0777;
-
 <% if configwwu == true %>
+
 initialize_further_configs(true);
 <% end %>
 
 $CFG->divertallemailsto = 'technik.learnweb@localhost'; // NOT FOR PRODUCTION SERVERS!
-
-define('MDL_PERF', true);
-define('MDL_PERFDB', true);
-define('MDL_PERFTOFOOT', true);
-
 
 $CFG->behat_dataroot = $CFG->dataroot.'behat/';
 $CFG->behat_faildump_path = $CFG->dataroot;
