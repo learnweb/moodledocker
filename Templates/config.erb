@@ -54,12 +54,21 @@ $CFG->behat_profiles = array(
   ),
 );
 
-// Force a debugging mode regardless the settings in the site administration
+// Force a debugging mode regardless of the settings in the site administration.
 @error_reporting(E_ALL | E_STRICT); // NOT FOR PRODUCTION SERVERS!
 @ini_set('display_errors', '1');    // NOT FOR PRODUCTION SERVERS!
 $CFG->debug = (E_ALL | E_STRICT);   // === DEBUG_DEVELOPER - NOT FOR PRODUCTION SERVERS!
 $CFG->debugdisplay = 1;             // NOT FOR PRODUCTION SERVERS!
 
+// Show performance details in footer.
+define('MDL_PERF'  , true);
+define('MDL_PERFDB'  , true);
+define('MDL_PERFTOFOOT', true);
+
+// Additional settings that have proven useful in our development scenarios.
+$CFG->allowthemechangeonurl = 1;
+
+// PHPUnit DB config.
 $CFG->phpunit_prefix = 'phpu_';
 $CFG->phpunit_dataroot = $CFG->dataroot.'/phpunit/';
 
