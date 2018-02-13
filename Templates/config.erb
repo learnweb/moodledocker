@@ -60,10 +60,10 @@ $CFG->behat_profiles = array(
 $CFG->debug = (E_ALL | E_STRICT);   // === DEBUG_DEVELOPER - NOT FOR PRODUCTION SERVERS!
 $CFG->debugdisplay = 1;             // NOT FOR PRODUCTION SERVERS!
 
-require_once(dirname(__FILE__) . '/lib/setup.php');
-
 $CFG->phpunit_prefix = 'phpu_';
 $CFG->phpunit_dataroot = $CFG->dataroot.'/phpunit/';
+
+require_once(dirname(__FILE__) . '/lib/setup.php');
 
 // There is no php closing tag in this file,
 // it is intentional because it prevents trailing whitespace problems!
