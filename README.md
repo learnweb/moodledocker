@@ -16,7 +16,7 @@ This is the current docker-based development environment.
 1. Create a dedicated folder that will contain all instances. Mine is located at `~/Moodledocker`.
 2. Within that folder, clone this repository into a folder called `Metafiles`: `git clone https://github.com/Dagefoerde/Moodledocker.git Metafiles`.
 3. Create a symbolic link to Moodledocker/Scripts/moodledocker, e.g. `ln -s ~/Moodledocker/Metafiles/Scripts/moodledocker ~/bin/moodledocker`.
-4. Also, clone a customised nginx-proxy that will manage redirection to the correct instance: `git clone git@github.com:tobiasreischmann/nginx-proxy.git`.
+4. Also, clone a customised nginx-proxy that will manage redirection to the correct instance: `git clone https://github.com/learnweb/moodledocker-nginx-proxy.git`.
 5. Enter `nginx-proxy` and build the image: `docker build -t jwilder/nginx-proxy .`.
 
 ## First use
