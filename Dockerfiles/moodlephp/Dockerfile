@@ -5,7 +5,7 @@ COPY moodledev.ini /usr/local/etc/php/conf.d/
 RUN  apt-get update \
 	&& apt-get install -y libpq-dev \
 	&& docker-php-ext-install pgsql \
-	&& apt-get install locales
+	&& apt-get install -y locales
 
 # Set the locale
 RUN locale-gen en_AU.UTF-8
@@ -43,6 +43,5 @@ RUN apt-get install -y \
 # modify ssmtp settings 
 RUN sed -ri -e 's/^(mailhub=).*/\1smtp-server/' \  
     -e 's/^#(FromLineOverride)/\1/' /etc/ssmtp/ssmtp.conf
-
 
 WORKDIR /var/www
