@@ -15,13 +15,14 @@ ENV LANGUAGE en_AU:en
 ENV LC_ALL en_AU.UTF-8 
 RUN update-locale
 
-RUN docker-php-ext-install zip 
+RUN apt-get install -y libzip-dev \
+	&& docker-php-ext-install zip
 
 RUN apt-get install -y \
 	    libfreetype6-dev \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
-        libpng12-dev \
+        libpng-dev \
 	&& docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
 	&& docker-php-ext-install gd
 
