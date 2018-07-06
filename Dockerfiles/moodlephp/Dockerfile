@@ -43,6 +43,8 @@ RUN yes | pecl install xdebug \
 # Enable debugging of CLI scripts with IntelliJ (Hostname must match server name at ‘Project Settings | PHP | Servers’).
 ENV PHP_IDE_CONFIG serverName=localhost
 
+RUN docker-php-ext-install opcache
+
 RUN apt-get install -y \
 	ssmtp \
 	netcat
