@@ -1,7 +1,5 @@
 FROM php:7.2-fpm
 
-COPY moodledev.ini /usr/local/etc/php/conf.d/
-
 RUN  apt-get update \
 	&& apt-get install -y libpq-dev \
 	&& docker-php-ext-install pgsql \
@@ -52,5 +50,7 @@ RUN apt-get install -y \
 # modify ssmtp settings 
 RUN sed -ri -e 's/^(mailhub=).*/\1smtp-server/' \  
     -e 's/^#(FromLineOverride)/\1/' /etc/ssmtp/ssmtp.conf
+
+COPY moodledev.ini /usr/local/etc/php/conf.d/
 
 WORKDIR /var/www
