@@ -56,6 +56,14 @@ def refresh_if_not_empty(name)
     end
   end
 
+  puts "Rebuild"
+  path = "#{MoodleDocker.base_dir}/#{name}"
+  puts "Switch to base directory #{path}"
+  puts "Rebuilding images"
+  FileUtils.cd(path) do
+    system "docker-compose build"
+  end
+
   puts "Done."
 
   return true
