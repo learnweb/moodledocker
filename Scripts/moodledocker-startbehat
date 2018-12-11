@@ -19,7 +19,7 @@ def start_behat(name)
     if (seleniumserver.strip == "")
       puts "There is no container with name seleniumserver"
       puts "Make sure you downloaded the correct container and execute something like:"
-	    puts "docker run --name seleniumserver -d -p 4444:4444 selenium/standalone-firefox:2.53.1-beryllium"
+	    puts "docker run --name seleniumserver -d -p 4444:4444 selenium/standalone-firefox:latest"
 	    return false
     else
       print "Starting selenium server"
@@ -34,7 +34,7 @@ def start_behat(name)
   puts "Your can run tests using something like:"
   puts "  moodledocker exec vendor/bin/behat --config /var/moodledata/behat/behatrun/behat/behat.yml --tags \"@yourplugin\""
 
-  phpcontainername = "#{name.gsub("_","")}_php_1"
+  phpcontainername = "#{name.gsub("_","_")}_php_1"
   puts "Starting webserver within #{phpcontainername}"
   system "docker exec -it #{phpcontainername} bash -c 'php -S 0.0.0.0:80 -t /var/www/public'"
   puts ' ... stopped'
