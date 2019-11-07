@@ -24,3 +24,14 @@ This is the current docker-based development environment.
 1. Check out a Moodle git respository somewhere (NOT below `~/Moodledocker`!).
 2. Choose a name `NAME` that you recognise. Navigate into the repository and enter `moodledocker createhere NAME`.  That command will create the necessary files and folder structure. It will also create a `config.php` for you, if you like (on first start, you should!).
 3. Start the instance by invoking `moodledocker control NAME up`. If the nginx proxy server is not running yet, the output will tell you how to start it.
+
+## Optional configuration
+
+# Sending emails
+
+The PHP containers provide an msmtp installation. It assumes that an MTA is installed and configured on the Docker host.
+On Ubuntu, take e.g. postfix. Some useful hints for configuration on Ubuntu:
+
+* Installation: https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-postfix-as-a-send-only-smtp-server-on-ubuntu-16-04 (you can use `dpkg-reconfigure postfix` to get to the configuration screen after installing postfix. This generates the `main.cf` that you'll need in the following.
+* Permit connections from Docker containers: http://satishgandham.com/2016/12/sending-email-from-docker-through-postfix-installed-on-the-host/
+* Configuring Postfix to relay email via GMAIL: https://leehblue.com/configure-postfix-send-email-through-gmail/
