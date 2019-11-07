@@ -11,7 +11,7 @@ RUN apt-get update && \
 	libicu-dev \
 	libpq-dev \
 	locales \
-	ssmtp \
+	msmtp \
 	netcat
 
 RUN docker-php-ext-install pgsql
@@ -39,10 +39,6 @@ ENV PHP_IDE_CONFIG serverName=localhost
 
 RUN docker-php-ext-install opcache
 
-# modify ssmtp settings 
-RUN sed -ri -e 's/^(mailhub=).*/\1smtp-server/' \  
-    -e 's/^#(FromLineOverride)/\1/' /etc/ssmtp/ssmtp.conf
-
 # Set the locale
 RUN locale-gen en_AU.UTF-8
 RUN localedef -i en_AU -f UTF-8 en_AU.UTF-8
@@ -51,6 +47,9 @@ ENV LANGUAGE en_AU:en
 ENV LC_ALL en_AU.UTF-8 
 RUN update-locale
 
+# Copy configuration files
 COPY moodledev.ini /usr/local/etc/php/conf.d/
+COPY msmtprc /etc/msmtprc
+RUN chmod 600 /etc/msmtprc
 
 WORKDIR /var/www
