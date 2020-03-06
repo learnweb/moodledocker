@@ -39,6 +39,9 @@ ENV PHP_IDE_CONFIG serverName=localhost
 
 RUN docker-php-ext-install opcache
 
+RUN apt-get install -y \
+	sassc
+
 # Set the locale
 RUN locale-gen en_AU.UTF-8
 RUN localedef -i en_AU -f UTF-8 en_AU.UTF-8
