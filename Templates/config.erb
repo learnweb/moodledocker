@@ -65,6 +65,9 @@ $CFG->pathtosassc = '/usr/bin/sassc';
 $CFG->phpunit_prefix = 'phpu_';
 $CFG->phpunit_dataroot = $CFG->dataroot.'/phpunit/';
 
+// Setting to get the correct ip of the user instead of the ip of the nginx-proxy
+$CFG->getremoteaddrconf = 1;
+
 require_once(dirname(__FILE__) . '/lib/setup.php');
 
 // There is no php closing tag in this file,
