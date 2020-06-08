@@ -8,7 +8,7 @@ require_relative 'moodledocker-common.rb'
 
 def puts_usage
   puts "Usage: moodledocker ["+@scripts.join("|")+"] SCRIPT_ARGUMENTS"
-  puts "Individual scripts use different SCRIPT_ARGUMENTS. Invoke `moodledocker SCRIPT_NANE' to find out individual usage."
+  puts "Individual scripts use different SCRIPT_ARGUMENTS. Invoke `moodledocker SCRIPT_NAME' to find out individual usage."
 end
 
 if ARGV.length < 1 then
