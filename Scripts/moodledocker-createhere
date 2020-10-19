@@ -4,7 +4,7 @@ require_relative 'moodledocker-common.rb'
 # This is a simple wrapper to moodledocker-create, intended to be ran in a working copy of Moodle.
 
 def puts_usage
-  puts "Usage: moodledocker-createhere NAME"
+  puts "Usage: moodledocker createhere NAME"
 end
 
 if ARGV.length != 1 then

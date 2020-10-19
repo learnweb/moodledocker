@@ -71,7 +71,7 @@ def create_if_empty(name, srcdir)
 
   puts "Done."
   puts "Docker project directory for \"#{name}\" is now at: #{MoodleDocker.base_dir}/#{name}"
-  puts "Start containers using: moodledocker-control #{name} up"
+  puts "Start containers using: moodledocker control #{name} up"
   return true
 end
 
