@@ -16,6 +16,22 @@ module MoodleDocker
     return @forbidden_names
   end
 
+  def self.php_default
+    return 'php-7.4'
+  end
+
+  def self.php_options
+    return Dir.children("#{File.dirname(__dir__)}/Dockerfiles/php")
+  end
+
+  def self.db_default
+    return 'psql-10.4'
+  end
+
+  def self.db_options
+    return Dir.children("#{File.dirname(__dir__)}/Dockerfiles/db")
+  end
+
   def self.name_valid? (name)
     if name =~ /[^\w\.]/
       puts "Error: Target name \"#{name}\" invalid. Please specify a proper string (a-zA-Z0-9\\.)."

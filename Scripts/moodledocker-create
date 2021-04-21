@@ -32,11 +32,36 @@ def create_if_empty(name, srcdir)
     datadir = name + "/data"
     FileUtils.mkdir( [name, datadir, datadir + "/db", datadir + "/moodledata"] )
 
+    remaining_php = MoodleDocker.php_options - [MoodleDocker.php_default]
+    puts "PHP-Version? #{MoodleDocker.php_default} (Default), #{remaining_php.join(', ')}"
+    input = $stdin.gets.chomp
+    if MoodleDocker.php_options.include? input
+      php = input
+    else
+      php = MoodleDocker.php_default
+    end
+
+    remaining_db = MoodleDocker.db_options - [MoodleDocker.db_default]
+    puts "DB-Version? #{MoodleDocker.db_default} (Default), #{remaining_db.join(', ')}"
+    input = $stdin.gets.chomp
+    if MoodleDocker.db_options.include? input
+      db = input
+    else
+      db = MoodleDocker.db_default
+    end
+
     puts "  Copy templates."
     new_file = File.open("#{name}/docker-compose.yml", "w+")
-    template = File.read("Metafiles/Templates/docker-compose.erb")
     foo = Foo.new
     foo.name = name
+
+    template = File.read("Metafiles/Dockerfiles/php/#{php}/docker-compose.erb")
+    new_file << ERB.new(template).result(foo.template_binding)
+
+    template = File.read("Metafiles/Dockerfiles/db/#{db}/docker-compose.erb")
+    new_file << ERB.new(template).result(foo.template_binding)
+
+    template = File.read("Metafiles/Dockerfiles/nginx/docker-compose.erb")
     new_file << ERB.new(template).result(foo.template_binding)
     new_file.close
 

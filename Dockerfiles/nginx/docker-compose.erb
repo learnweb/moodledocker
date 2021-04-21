@@ -1,0 +1,10 @@
+nginx:
+  build: ../Metafiles/Dockerfiles/nginx
+  links:
+    - php:php
+  volumes_from:
+    - php
+  expose:
+    - "80"
+  environment:
+    - VIRTUAL_HOST=<%= @name %>

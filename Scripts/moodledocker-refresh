@@ -23,14 +23,39 @@ def refresh_if_not_empty(name)
   # Make sure everything happens in the *correct* directory!
   puts "Switch to base directory #{MoodleDocker.base_dir}"
   FileUtils.cd(MoodleDocker.base_dir) do
+
+    remaining_php = MoodleDocker.php_options - [MoodleDocker.php_default]
+    puts "PHP-Version? #{MoodleDocker.php_default} (Default), #{remaining_php.join(', ')}"
+    input = $stdin.gets.chomp
+    if MoodleDocker.php_options.include? input
+      php = input
+    else
+      php = MoodleDocker.php_default
+    end
+
+    remaining_db = MoodleDocker.db_options - [MoodleDocker.db_default]
+    puts "DB-Version? #{MoodleDocker.db_default} (Default), #{remaining_db.join(', ')}"
+    input = $stdin.gets.chomp
+    if MoodleDocker.db_options.include? input
+      db = input
+    else
+      db = MoodleDocker.db_default
+    end
+
     puts "  Copy templates."
     new_file = File.open("#{name}/docker-compose.yml", "w+")
-    template = File.read("Metafiles/Templates/docker-compose.erb")
     foo = Foo.new
     foo.name = name
+
+    template = File.read("Metafiles/Dockerfiles/php/#{php}/docker-compose.erb")
+    new_file << ERB.new(template).result(foo.template_binding)
+
+    template = File.read("Metafiles/Dockerfiles/db/#{db}/docker-compose.erb")
+    new_file << ERB.new(template).result(foo.template_binding)
+
+    template = File.read("Metafiles/Dockerfiles/nginx/docker-compose.erb")
     new_file << ERB.new(template).result(foo.template_binding)
     new_file.close
-
 
     puts "Copy config? (0: No (Default), 1: copy config.php, 2: also include require(config-wwu.php)): "
     input = $stdin.gets.chomp

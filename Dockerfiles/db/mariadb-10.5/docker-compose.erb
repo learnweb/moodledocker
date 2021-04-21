@@ -1,0 +1,14 @@
+db:
+  image: mariadb:10.5
+  ports:
+    - "32769"
+  environment:
+    - MYSQL_ROOT_PASSWORD=RANDMStrUmaY!Gue$$
+    - MYSQL_DATABASE=testdb
+    - MYSQL_USER=testdb
+    - MYSQL_PASSWORD=hello
+    - MOODLE_DBUSER=testdb
+    - MOODLE_DBPASS=hello
+    - MOODLE_DBTYPE=mariadb
+  volumes:
+    - ./data/db:/var/lib/mysql
