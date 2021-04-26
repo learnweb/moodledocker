@@ -32,7 +32,9 @@ RUN yes | pecl install xdebug \
 	&& echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/xdebug.ini \
 	&& echo 'xdebug.client_host=172.17.0.1' >> /usr/local/etc/php/conf.d/xdebug.ini \
 	&& echo 'xdebug.client_port=9000' >> /usr/local/etc/php/conf.d/xdebug.ini \
-	&& echo 'xdebug.start_upon_error=yes' >> /usr/local/etc/php/conf.d/xdebug.ini
+	&& echo 'xdebug.start_upon_error=yes' >> /usr/local/etc/php/conf.d/xdebug.ini \
+	&& echo 'xdebug.log_level=0' >> /usr/local/etc/php/conf.d/xdebug.ini
+
 
 # Enable debugging of CLI scripts with IntelliJ (Hostname must match server name at ‘Project Settings | PHP | Servers’).
 ENV PHP_IDE_CONFIG serverName=localhost
