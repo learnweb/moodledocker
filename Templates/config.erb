@@ -8,18 +8,14 @@ $CFG = new stdClass();
 require_once(dirname(__FILE__) . '/config-wwu.php');
 <% end %>
 
-$CFG->dbtype    = 'pgsql';
+$CFG->dbtype    = getenv('DB_ENV_MOODLE_DBTYPE');
 $CFG->dblibrary = 'native';
-$CFG->dbhost    = getenv('DB_PORT_5432_TCP_ADDR');
+$CFG->dbhost    = 'db';
 $CFG->dbname    = getenv('DB_ENV_MOODLE_DBUSER');
 $CFG->dbuser    = getenv('DB_ENV_MOODLE_DBUSER');
 $CFG->dbpass    = getenv('DB_ENV_MOODLE_DBPASS');
 $CFG->prefix    = 'mdl_';
-$CFG->dboptions = array (
-'dbpersist' => 0,
-'dbsocket' => false,
-'dbport' => getenv('DB_PORT_5432_TCP_PORT'),
-);
+$CFG->dboptions = array();
 
 $CFG->navexpandmycourses = true;
 
@@ -41,7 +37,7 @@ $CFG->behat_prefix = 'bht_';
 $CFG->behat_wwwroot = 'http://172.17.0.1/behat_<%= @name %>';
 $CFG->behat_profiles = array(
   'default' => array(
-    'browser' => 'firefox',
+    'browser' => 'chrome',
     'wd_host' => 'http://172.17.0.1:4444/wd/hub',
   ),
 );

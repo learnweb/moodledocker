@@ -19,7 +19,7 @@ def start_behat(name)
     if (seleniumserver.strip == "")
       puts "There is no container with name seleniumserver"
       puts "Make sure you downloaded the correct container and execute something like:"
-	    puts "docker run --name seleniumserver -d -p 4444:4444 selenium/standalone-firefox:2.53.1-beryllium"
+	    puts "docker run --name seleniumserver -d -p 4444:4444 selenium/standalone-chrome:3"
 	    return false
     else
       print "Starting selenium server"

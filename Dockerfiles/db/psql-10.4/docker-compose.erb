@@ -1,0 +1,12 @@
+db:
+  build: ../Metafiles/Dockerfiles/db/psql-10.4
+  ports:
+    - "5432"
+  environment:
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=RANDMStrUmaY!Gue$$
+    - MOODLE_DBUSER=testdb
+    - MOODLE_DBPASS=hello
+    - MOODLE_DBTYPE=pgsql
+  volumes:
+    - ./data/db:/var/lib/postgresql/data

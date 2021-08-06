@@ -1,0 +1,16 @@
+php:
+  build: ../Metafiles/Dockerfiles/php/php-8.0
+  links:
+    - db:db
+  volumes:
+    - ./moodle:/var/www/public/<%= @name %>
+    - ./moodle:/var/www/public/behat_<%= @name %>
+    - ./data/moodledata:/var/moodledata
+  command: /usr/local/sbin/php-fpm
+  environment:
+    - XDEBUG_CONFIG=remote_host=172.17.0.1
+    - VIRTUAL_HOST=behat_<%= @name %>
+  expose:
+    - "80"
+  extra_hosts: # SMTP must match configuration in Dockerfiles/moodlephp/Dockerfile
+    - "smtp-server:172.17.0.1"

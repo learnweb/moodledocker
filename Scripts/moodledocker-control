@@ -25,12 +25,19 @@ def up(name)
       return false;
     end
 
-    postgresinterface = `docker-compose port db 5432`
-    postgresport = postgresinterface.split(":")[1].strip
-
     puts "Containers for #{name} running."
     puts "  Access the site at: http://localhost/#{name}"
-    puts "  Access the database using: psql -p #{postgresport} -h localhost -U testdb    [Password: hello]"
+
+    postgresinterface = `docker-compose port db 5432`
+    mysqlinterface = `docker-compose port db 3306`
+    if postgresinterface.include? ':'
+      postgresport = postgresinterface.split(":")[1].strip
+      puts "  Access the database using: psql -p #{postgresport} -h localhost -U testdb    [Password: hello]"
+    elsif mysqlinterface.include? ':'
+      mysqlport = mysqlinterface.split(":")[1].strip
+      puts "  Access the database using: mysql -h 127.0.0.1 -P #{mysqlport} -u testdb -D testdb -p    [Password: hello]"
+    end
+
     puts "  Shutdown containers using: moodledocker-control #{name} down"
   end
 
