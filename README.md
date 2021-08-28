@@ -30,7 +30,12 @@ This is the current docker-based development environment.
 # Sending emails
 
 The PHP containers provide an msmtp installation. It assumes that an MTA is installed and configured on the Docker host.
-On Ubuntu, take e.g. postfix. Some useful hints for configuration on Ubuntu:
+
+You can very easily view outgoing emails without actually sending them, by using mailhog:
+
+`docker run -d -p 25:25 -p 8025:8025 -e MH_SMTP_BIND_ADDR=0.0.0.0:25 --name mailhog mailhog/mailhog`
+
+Otherwise, on Ubuntu, take e.g. postfix. Some useful hints for configuration on Ubuntu:
 
 * Installation: https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-postfix-as-a-send-only-smtp-server-on-ubuntu-16-04 (you can use `dpkg-reconfigure postfix` to get to the configuration screen after installing postfix. This generates the `main.cf` that you'll need in the following.
 * Permit connections from Docker containers: http://satishgandham.com/2016/12/sending-email-from-docker-through-postfix-installed-on-the-host/
