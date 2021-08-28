@@ -7,4 +7,4 @@ nginx:
   expose:
     - "80"
   environment:
-    - VIRTUAL_HOST=<%= @name %>
+    - VIRTUAL_HOST=<%= @name %>,behat_<%= @name %>
