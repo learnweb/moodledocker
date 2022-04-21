@@ -29,7 +29,7 @@ $CFG->directorypermissions = 0777;
 initialize_further_configs(true);
 <% end %>
 
-$CFG->divertallemailsto = 'technik.learnweb@localhost'; // NOT FOR PRODUCTION SERVERS!
+// $CFG->divertallemailsto = 'technik.learnweb@localhost'; // NOT FOR PRODUCTION SERVERS!
 
 $CFG->behat_dataroot = $CFG->dataroot.'behat/';
 $CFG->behat_faildump_path = $CFG->dataroot;
@@ -63,6 +63,8 @@ $CFG->phpunit_dataroot = $CFG->dataroot.'/phpunit/';
 
 // Setting to get the correct ip of the user instead of the ip of the nginx-proxy
 $CFG->getremoteaddrconf = 1;
+
+$CFG->smtphosts = 'smtp-server';
 
 require_once(dirname(__FILE__) . '/lib/setup.php');
 
