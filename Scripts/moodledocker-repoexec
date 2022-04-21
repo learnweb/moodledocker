@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require_relative 'moodledocker-common.rb'
 require 'fileutils'
+require 'shellwords'
 
 def execute_on_docker(command)
   currentpath = Dir.pwd + "/."
@@ -20,7 +21,7 @@ def execute_on_docker(command)
 
   remotefolder = "/var/www/public/" + projectname + "/"
   puts "Executing command in repository folder on #{servicename} ..."
-  system "docker exec -it #{servicename} bash -c '( cd #{remotefolder}; "+ command.join(' ') + ")'"
+  system "docker exec -it #{servicename} bash -c '( cd #{remotefolder}; "+  command.map! {|o| Shellwords.escape(o)}.join(' ') + ")'"
   return true
 end
 

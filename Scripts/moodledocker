@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require_relative 'moodledocker-common.rb'
+require 'shellwords'
 
 # This is a simple wrapper in order to achieve easier aliases.
 
@@ -24,5 +25,4 @@ if !@scripts.include? scriptname then
 end
 
 # Replace current process with the actual script.
-# Note that parameters are not escaped...
-exec("#{MoodleDocker.base_dir}/Metafiles/Scripts/moodledocker-#{scriptname} #{ARGV.drop(1).join(" ")}")
+exec("#{MoodleDocker.base_dir}/Metafiles/Scripts/moodledocker-#{scriptname} #{ARGV.drop(1).map! { |o| Shellwords.escape(o)}.join(" ")}")
