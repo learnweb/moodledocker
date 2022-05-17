@@ -42,6 +42,9 @@ def refresh_if_not_empty(name)
       db = MoodleDocker.db_default
     end
 
+    puts "Copy moodledev.ini"
+    FileUtils.cp("Metafiles/Dockerfiles/php/#{php}/moodledev.ini", name + "/moodledev.ini")
+    
     puts "  Copy templates."
     new_file = File.open("#{name}/docker-compose.yml", "w+")
     foo = Foo.new

@@ -6,6 +6,7 @@ php:
     - ./moodle:/var/www/public/<%= @name %>
     - ./moodle:/var/www/public/behat_<%= @name %>
     - ./data/moodledata:/var/moodledata
+    - ./moodledev.ini:/usr/local/etc/php/conf.d/moodledev.ini
   command: /usr/local/sbin/php-fpm
   environment:
     - XDEBUG_CONFIG=remote_host=172.17.0.1
