@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:8.1-fpm
 
 RUN apt-get update && \
         apt-get install -y \
@@ -23,7 +23,8 @@ RUN docker-php-ext-install zip
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
 	&& docker-php-ext-install gd
 
-RUN docker-php-ext-install xmlrpc soap
+RUN pecl install xmlrpc-beta && docker-php-ext-enable xmlrpc
+RUN docker-php-ext-install soap
 
 RUN docker-php-ext-install intl
 
@@ -44,9 +45,9 @@ RUN apt-get install -y \
 # Set the locale
 RUN locale-gen en_AU.UTF-8
 RUN localedef -i en_AU -f UTF-8 en_AU.UTF-8
-ENV LANG en_AU.UTF-8
-ENV LANGUAGE en_AU:en
-ENV LC_ALL en_AU.UTF-8
+ENV LANG en_AU.UTF-8  
+ENV LANGUAGE en_AU:en  
+ENV LC_ALL en_AU.UTF-8 
 RUN update-locale
 
 # Copy configuration files
