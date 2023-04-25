@@ -17,19 +17,19 @@ module MoodleDocker
   end
 
   def self.php_default
-    return 'php-7.4'
+    return 'php-8.1'
   end
 
   def self.php_options
-    return Dir.children("#{File.dirname(__dir__)}/Dockerfiles/php")
+    return Dir.children("#{File.dirname(__dir__)}/Dockerfiles/php").sort!
   end
 
   def self.db_default
-    return 'psql-10.4'
+    return 'psql-14'
   end
 
   def self.db_options
-    return Dir.children("#{File.dirname(__dir__)}/Dockerfiles/db")
+    return Dir.children("#{File.dirname(__dir__)}/Dockerfiles/db").sort!
   end
 
   def self.name_valid? (name)
