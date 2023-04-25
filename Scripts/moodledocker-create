@@ -71,6 +71,9 @@ def create_if_empty(name, srcdir)
     puts "  Symlink external resources."
     File.symlink(srcdir, name + "/moodle")
 
+    puts "  Copy moodledev.ini"
+    FileUtils.cp("Metafiles/Dockerfiles/php/#{php}/moodledev.ini", name + "/moodledev.ini")
+
     puts "Copy config? (0: No (Default), 1: copy config.php, 2: also include require(config-wwu.php)): "
     input = $stdin.gets.chomp
 
