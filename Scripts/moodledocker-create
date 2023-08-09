@@ -1,14 +1,6 @@
 #!/usr/bin/env ruby
 require_relative 'moodledocker-common.rb'
 require 'fileutils'
-require 'erb'
-
-    class Foo
-	 attr_accessor :name, :configwwu
-	 def template_binding
-	    binding
-	 end
-    end
 
 def create_if_empty(name, srcdir)
   if !MoodleDocker.name_valid? (name)
@@ -25,77 +17,7 @@ def create_if_empty(name, srcdir)
     return false
   end
 
-  # Make sure everything happens in the *correct* directory!
-  puts "Switch to base directory #{MoodleDocker.base_dir}"
-  FileUtils.cd(MoodleDocker.base_dir) do
-    puts "  Create directories."
-    datadir = name + "/data"
-    FileUtils.mkdir( [name, datadir, datadir + "/db", datadir + "/moodledata"] )
-
-    remaining_php = MoodleDocker.php_options - [MoodleDocker.php_default]
-    puts "PHP-Version? #{MoodleDocker.php_default} (Default), #{remaining_php.join(', ')}"
-    input = $stdin.gets.chomp
-    if MoodleDocker.php_options.include? input
-      php = input
-    else
-      php = MoodleDocker.php_default
-    end
-
-    remaining_db = MoodleDocker.db_options - [MoodleDocker.db_default]
-    puts "DB-Version? #{MoodleDocker.db_default} (Default), #{remaining_db.join(', ')}"
-    input = $stdin.gets.chomp
-    if MoodleDocker.db_options.include? input
-      db = input
-    else
-      db = MoodleDocker.db_default
-    end
-
-    puts "  Copy templates."
-    new_file = File.open("#{name}/docker-compose.yml", "w+")
-    foo = Foo.new
-    foo.name = name
-
-    template = File.read("Metafiles/Dockerfiles/php/#{php}/docker-compose.erb")
-    new_file << ERB.new(template).result(foo.template_binding)
-
-    template = File.read("Metafiles/Dockerfiles/db/#{db}/docker-compose.erb")
-    new_file << ERB.new(template).result(foo.template_binding)
-
-    template = File.read("Metafiles/Dockerfiles/nginx/docker-compose.erb")
-    new_file << ERB.new(template).result(foo.template_binding)
-    new_file.close
-
-    puts "  Change owner of Moodledata directory to www-data (requires SU privileges)."
-    system("sudo chown 33:33 " + datadir + "/moodledata")
-
-    puts "  Symlink external resources."
-    File.symlink(srcdir, name + "/moodle")
-
-    puts "  Copy moodledev.ini"
-    FileUtils.cp("Metafiles/Dockerfiles/php/#{php}/moodledev.ini", name + "/moodledev.ini")
-
-    puts "Copy config? (0: No (Default), 1: copy config.php, 2: also include require(config-wwu.php)): "
-    input = $stdin.gets.chomp
-
-    if input == "2" then
-      configwwu = true
-    else
-      configwwu = false
-    end
-
-    if input == "2" || input == "1" then
-      puts "  Copy config.php."
-      new_file = File.open("#{srcdir}/config.php", "w+")
-      template = File.read("Metafiles/Templates/config.erb")
-      foo = Foo.new
-      foo.name = name
-      foo.configwwu = configwwu
-      new_file << ERB.new(template).result(foo.template_binding)
-      new_file.close
-    else
-      puts "  Ok, then not."
-    end
-  end
+  MoodleDocker.build_yaml(name, srcdir)
 
   puts "Done."
   puts "Docker project directory for \"#{name}\" is now at: #{MoodleDocker.base_dir}/#{name}"
