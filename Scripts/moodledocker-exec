@@ -12,7 +12,10 @@ def execute_on_docker(command)
     puts "Error: For this folder no Docker instance could be found."
     return false
   end
-  servicename = projectname.gsub('_', '') + '_php_1'
+
+  delimiter = MoodleDocker.docker_delimiter
+
+  servicename = projectname.gsub('_', '') + delimiter + 'php' + delimiter + '1'
   nginx = `docker ps -a -f name=#{servicename} -q`
   if nginx.strip == ''
     puts "Error: Instance #{servicename} is not running!"

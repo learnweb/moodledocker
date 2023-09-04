@@ -78,6 +78,14 @@ module MoodleDocker
     return links.select {|entry| pathname.fnmatch?(File.join(entry,'**'))}.first()
   end
 
+  def self.docker_delimiter
+    if `docker-compose version --short`.start_with?("2")
+      return '-'
+    else
+      return '_'
+    end
+  end
+
   def self.project_name (path)
     # Look for a project with a moodle link which leads to the current path
     dirs = Dir.entries(self.base_dir).select { |entry| File.directory? File.join(self.base_dir,entry) and
