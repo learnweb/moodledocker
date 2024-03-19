@@ -12,7 +12,7 @@ RUN apt-get update && \
 	libpq-dev \
 	locales \
 	msmtp \
-	netcat
+	netcat-traditional
 
 RUN docker-php-ext-install pgsql
 
