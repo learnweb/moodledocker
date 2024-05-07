@@ -26,7 +26,7 @@ module MoodleDocker
   end
 
   def self.php_default
-    return 'php-8.1'
+    return 'php-8.3'
   end
 
   def self.php_options
