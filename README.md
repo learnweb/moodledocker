@@ -25,6 +25,7 @@ This is the current docker-based development environment.
 2. Choose a name `NAME` that you recognise. Navigate into the repository and enter `moodledocker createhere NAME`.  That command will create the necessary files and folder structure. It will also create a `config.php` for you, if you like (on first start, you should!).
 3. Start the instance by invoking `moodledocker control NAME up`. If the nginx proxy server is not running yet, the output will tell you how to start it.
 
+(Optionally, you might want to use `sudo docker container exec -it _containerName_ /bin/bash` (where `containerName` can be found with `docker ps`) to have a normal shell for the container.)
 ## Optional configuration
 
 # Sending emails
