@@ -5,7 +5,7 @@ require 'shellwords'
 # This is a simple wrapper in order to achieve easier aliases.
 
 # List of allowed script names. Corresponding `moodledocker-XXX' must exist and be executable.
-@scripts = ['create', 'createhere', 'control', 'refresh', 'exec', 'repoexec', 'startbehat', 'psql']
+@scripts = ['create', 'createhere', 'control', 'refresh', 'exec', 'repoexec', 'psql']
 
 def puts_usage
   puts "Usage: moodledocker ["+@scripts.join("|")+"] SCRIPT_ARGUMENTS"
