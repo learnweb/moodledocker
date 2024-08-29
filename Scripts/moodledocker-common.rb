@@ -64,7 +64,7 @@ module MoodleDocker
     # Look for a project with a moodle link which leads to the current path
     dirs = Dir.entries(self.base_dir).select { |entry| File.directory? File.join(self.base_dir,entry) and
         !(entry =='.' || entry == '..') and
-        File.exists? File.join(self.base_dir,entry,"moodle")}
+        File.exist? File.join(self.base_dir,entry,"moodle")}
     links = []
     dirs.each do |entry|
       dirname = File.join(self.base_dir, entry, 'moodle')
@@ -90,7 +90,7 @@ module MoodleDocker
     # Look for a project with a moodle link which leads to the current path
     dirs = Dir.entries(self.base_dir).select { |entry| File.directory? File.join(self.base_dir,entry) and
         !(entry =='.' || entry == '..') and
-        File.exists? File.join(self.base_dir,entry,"moodle")}
+        File.exist? File.join(self.base_dir,entry,"moodle")}
     pathname = Pathname.new(path)
     return dirs.select {|entry| pathname.fnmatch?(File.join(File.readlink(File.join(self.base_dir,entry,"moodle")),'**'))}.first()
   end
