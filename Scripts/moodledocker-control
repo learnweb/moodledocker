@@ -20,7 +20,7 @@ def up(name)
   path = "#{MoodleDocker.base_dir}/#{name}"
   puts "Switch to base directory #{path}"
   FileUtils.cd(path) do
-    success = system "docker-compose up -d"
+    success = system "#{MoodleDocker.docker_compose_name} up -d"
     if !success
       return false;
     end
@@ -28,8 +28,8 @@ def up(name)
     puts "Containers for #{name} running."
     puts "  Access the site at: http://localhost/#{name}"
 
-    postgresinterface = `docker-compose port db 5432`
-    mysqlinterface = `docker-compose port db 3306`
+    postgresinterface = `#{MoodleDocker.docker_compose_name} port db 5432`
+    mysqlinterface = `#{MoodleDocker.docker_compose_name} port db 3306`
     if postgresinterface.include? ':'
       postgresport = postgresinterface.split(":")[1].strip
       puts "  Access the database using: psql -p #{postgresport} -h localhost -U testdb    [Password: hello]"
@@ -48,7 +48,7 @@ def down(name)
   path = "#{MoodleDocker.base_dir}/#{name}"
   puts "Switch to base directory #{path}"
   FileUtils.cd(path) do
-    return system "docker-compose down"
+    return system "#{MoodleDocker.docker_compose_name} down"
   end
 end
 

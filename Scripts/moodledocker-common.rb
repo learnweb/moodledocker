@@ -78,8 +78,35 @@ module MoodleDocker
     return links.select {|entry| pathname.fnmatch?(File.join(entry,'**'))}.first()
   end
 
+  def self.command_return_status (cmd)
+    begin
+      `#{cmd}`
+      return $?.success?
+    rescue Errno::ENOENT
+      return false
+    end
+  end
+
+  def self.find_docker_compose_name
+    if self.command_return_status("docker compose")
+      return "docker compose"
+    end
+
+    if self.command_return_status("docker-compose")
+      return "docker-compose"
+    end
+
+    puts "Error: Could not find docker compose!"
+    exit
+  end
+
+  def self.docker_compose_name
+    @docker_compose_name ||= find_docker_compose_name
+    return @docker_compose_name
+  end
+
   def self.docker_delimiter
-    if `docker-compose version --short`.start_with?("2")
+    if `#{self.docker_compose_name} version --short`.start_with?("2")
       return '-'
     else
       return '_'
