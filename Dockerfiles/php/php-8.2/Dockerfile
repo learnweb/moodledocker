@@ -14,6 +14,8 @@ RUN apt-get update && \
 	msmtp \
 	netcat-traditional
 
+RUN docker-php-ext-install opcache
+
 RUN docker-php-ext-install pgsql
 
 RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
@@ -37,8 +39,6 @@ RUN yes | pecl install xdebug \
 
 # Enable debugging of CLI scripts with IntelliJ (Hostname must match server name at ‘Project Settings | PHP | Servers’).
 ENV PHP_IDE_CONFIG serverName=localhost
-
-RUN docker-php-ext-install opcache
 
 RUN apt-get install -y \
 	sassc
