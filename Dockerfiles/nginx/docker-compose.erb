@@ -7,4 +7,5 @@ nginx:
   expose:
     - "80"
   environment:
-    - VIRTUAL_HOST=<%= @name %>,behat_<%= @name %>
+    - VIRTUAL_HOST=localhost
+    - VIRTUAL_PATH=~* moodle405(_behat)?

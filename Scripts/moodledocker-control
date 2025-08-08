@@ -9,8 +9,8 @@ def up(name)
      nginxproxy = `docker ps -a -f name=nginx-proxy -q`
      if (nginxproxy.strip == "")
 	puts "There is no container with name nginx-proxy"
-	puts "Make sure you downloaded the correct container and execute something like:"
-	puts "docker run --name nginx-proxy -d -p 80:80 -v /var/run/docker.sock:/tmp/docker.sock:ro jwilder/nginx-proxy"
+	puts "Make sure to have the nginx-proxy running by executing something like:"
+	puts "docker run --name nginx-proxy -d -p 80:80 -v /var/run/docker.sock:/tmp/docker.sock:ro nginxproxy/nginx-proxy"
      else 
         print "Starting nginx-proxy"
         `docker start nginx-proxy`

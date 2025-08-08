@@ -151,7 +151,6 @@ module MoodleDocker
       foo.name = name
 
       yaml = {
-        "version" => "3",
         "services" => {}
       }
 
